@@ -210,9 +210,15 @@ func (r *repository) ListTasks(ctx context.Context, req entity.ListTasksRequest,
 		}
 	}
 
-	if req.Limit > 0 {
-		q = q.Limit(req.Limit)
+	limit := req.Limit
+	if limit <= 0 {
+		limit = 100 // Enforce default safety limit to prevent OOM
 	}
+	if limit > 500 {
+		limit = 500 // Hard cap to prevent PostgreSQL / backend overload
+	}
+	q = q.Limit(limit)
+
 	if req.Offset > 0 {
 		q = q.Offset(req.Offset)
 	}
