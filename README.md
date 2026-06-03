@@ -1,9 +1,12 @@
 # AgentRQ ── Agent-Human Collaboration Platform
 
 <p align="center">
-  <video src="demos/demo.mp4" width="480" controls="controls"></video>
-  <br />
   <a href="https://www.youtube.com/watch?v=GBAoSpuCzrU">Watch on YouTube in HD</a>
+  <br />
+  <br />
+  <a href="https://discord.gg/eDXbwF7G">
+    <img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord" />
+  </a>
 </p>
 
 AgentRQ is a modern, high-performance platform designed for seamless collaboration between human operators and AI agents. It leverages the **Model Context Protocol (MCP)** to allow AI models (like Claude) to interact directly with your workspace's task management system.
