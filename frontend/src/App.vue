@@ -12,7 +12,7 @@
           <span>A new version of AgentRQ is available.</span>
         </div>
         <div class="flex items-center gap-2 shrink-0">
-          <button @click="updateServiceWorker()"
+          <button @click="handleUpdateNow()"
                   class="px-3 py-1 bg-white text-black text-[10px] font-black uppercase tracking-widest rounded-lg hover:bg-gray-100 active:scale-95 transition-all">
             Update now
           </button>
@@ -299,6 +299,11 @@ import Toast from './components/Toast.vue'
 
 const appVersion = __APP_VERSION__
 const { needRefresh, updateServiceWorker } = useRegisterSW()
+
+const handleUpdateNow = async () => {
+  await updateServiceWorker(false)
+  window.location.reload()
+}
 
 const { toKebabCase } = useFormat()
 
