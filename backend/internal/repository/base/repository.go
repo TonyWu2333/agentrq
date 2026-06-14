@@ -363,10 +363,14 @@ func (r *repository) FindAttachmentMetadata(ctx context.Context, workspaceID int
 		}
 	}
 
-	// Search in messages of tasks in this workspace
+	// Search in messages of tasks in this workspace.
+	// Use a subquery instead of JOIN to avoid SELECT * returning both
+	// messages.attachments and tasks.attachments (same column name); GORM would
+	// scan tasks.attachments (NULL) last, silently zeroing out the message value.
 	var msgs []model.Message
-	err = r.conn(ctx).Joins("JOIN tasks ON tasks.id = messages.task_id").
-		Where("tasks.workspace_id = ? AND messages.attachments LIKE ?", workspaceID, likeExpr).Find(&msgs).Error
+	err = r.conn(ctx).
+		Where("task_id IN (SELECT id FROM tasks WHERE workspace_id = ?) AND attachments LIKE ?", workspaceID, likeExpr).
+		Find(&msgs).Error
 	if err == nil && len(msgs) > 0 {
 		for _, m := range msgs {
 			var atts []entity.Attachment

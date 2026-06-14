@@ -210,7 +210,7 @@ func (c *controller) RespondToTask(ctx context.Context, req entity.RespondToTask
 		return nil, fmt.Errorf("unknown action: %s", req.Action)
 	}
 
-	if createMsg && msgText != "" {
+	if createMsg && (msgText != "" || len(req.Attachments) > 0) {
 		// Save attachments
 		c.saveAttachments(req.Attachments)
 
